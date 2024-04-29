@@ -1,10 +1,14 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
+import { ToastContainer,toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css';
 
 
 const Services = () => {
+  const notify = () => toast("Wow so easy!");
   return (
     <div className=' w-screen flex-col min-h-screen pt-[12vh]  flex gap-10  my-10'>
-      <h1 className=' text-3xl headingfont pr-8 pb-2  border-b inline w-fit '>
+      <h1 className='  text-3xl headingfont ml-14 pr-8 pb-2  border-b inline w-fit '>
         Our Services
       </h1>
     <div className='px-[5vw] mb-12'>
@@ -26,7 +30,7 @@ const Services = () => {
       <p>Couples seeking elegant decor on a moderate budget, with a focus on essential elements to enhance the atmosphere of their wedding day.</p>
       <div className=' mt-6 flex items-center justify-between'>
         <h1 className=' text-xl font-medium'> Price : 1500 $</h1>
-        <button className=' py-2 px-6 rounded-full  bg-green-500 text-white font-medium border border-black'>Buy Now</button>
+        <Link  to='/payment' className=' py-2 px-6 rounded-full  bg-green-500 text-white font-medium border border-black'>Buy Now</Link>
       </div>
       </div>
       <div className=' overflow-hidden w-1/2 flex justify-center rounded-xl p-2 '>
@@ -55,7 +59,8 @@ const Services = () => {
       <p>Couples who desire a more luxurious and personalized decor experience, with high-quality floral arrangements and attention to detail to create an unforgettable atmosphere.</p>
       <div className=' mt-6 flex items-center justify-between'>
         <h1 className=' text-xl font-medium'> Price : 3500 $</h1>
-        <button className=' py-2 px-6 rounded-full  bg-green-500 text-white font-medium border border-black'>Buy Now</button>
+        <button onClick={notify} className=' py-2 px-6 rounded-full  bg-green-500 text-white font-medium border border-black'>Buy Now</button>
+        <ToastContainer/>
       </div>
       </div>
       <div className=' overflow-hidden w-1/2 flex justify-center rounded-xl p-2 '>

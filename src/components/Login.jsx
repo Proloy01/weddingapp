@@ -1,7 +1,10 @@
 import React, { useState } from 'react'; 
 import { Link } from 'react-router-dom';
+import { ToastContainer,toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css';
 
 const Login = () => {
+    const notify = () => toast("Login Sucessful");
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [hide,setHide] =useState({name:'bx bx-show',
@@ -47,15 +50,17 @@ const handlePass =()=>{
                         onChange={(e) => setPassword(e.target.value)}
                     />
                     <button onClick={handlePass} className=' px-4 py-2 rounded-xl bg-blue-500 font-medium text-white'><i className={hide.name}></i></button>
+                   
                     </div>
                 </div> 
                 <div className="flex items-center justify-between w-full">
-                    <button
+                    <button 
                         className="bg-blue-500 hover:bg-blue-700 headingfont text-white font-bold w-full py-2 px-4 rounded focus:outline-none focus:shadow-outline"
                         type="submit"
                     >
                         Sign In
                     </button>
+                    <ToastContainer/>
                 </div>
                     <div className=' flex  justify-between w-full mt-4'><p>Not have an account ?</p> <Link className=' text-blue-700 border-b px-1 border-blue-700' to='/signup'>Create an account</Link></div>
             </form>

@@ -12,7 +12,7 @@ const Contact = () => {
             e.preventDefault();
     }
   return (
-    <div className=' h-screen w-full px-[10vw] pt-10 mb-[10vh] flex flex-col gap-10 '>
+    <div className=' h-screen w-full px-[10vw] pt-2 mb-[10vh] flex flex-col gap-10 '>
          <h1 className=" pt-16 pb-2 w-fit text-3xl headingfont border-b ">Contact Us</h1>
         <div className=' flex w-full'>
             <form className=' flex flex-col w-1/2 gap-2' onSubmit={subForm} method="post">
