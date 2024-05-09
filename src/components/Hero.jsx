@@ -1,7 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 
-const Hero = () => {
+const Hero = ({isLogin}) => {
   return (
    <div className='  w-fit h-fit'>
  <div className=' relative w-screen h-screen bg-green-300 overflow-hidden'>
@@ -14,7 +14,7 @@ const Hero = () => {
                 <h1 className=' text-6xl font-semibold headingfont text-[#ffffff]'>Make Your Wedding</h1>
                 <h1 className=' text-8xl font-semibold headingfont my-4 text-[#f5f5f5cb]'>Memoriable with us</h1>
                 <p className='headingfont w-2/3 text-zinc-300'>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quia mollitia praesentium fugiat unde quos labore reprehenderit enim sunt repudiandae, atque assumenda magnam eos non possimus provident illo. Dolore doloribus ipsa natus enim, doloremque expedita tempora corporis dignissimos aperiam repellat ea sint molestias dolor corrupti mollitia. In modi culpa praesentium tenetur.</p>
-                <Link className=' cursor-pointer headingfont tracking-wider text-xl hover:gap-8 duration-300 ease-linear explore border mt-8 px-6 py-2 rounded-md gap-4 flex  items-center text-white' to="/signup">Join Today<i className='bx bx-right-arrow-alt' ></i></Link>
+                {isLogin?(<></>):(<><Link className=' cursor-pointer headingfont tracking-wider text-xl hover:gap-8 duration-300 ease-linear explore border mt-8 px-6 py-2 rounded-md gap-4 flex  items-center text-white' to="/signup">Join Today<i className='bx bx-right-arrow-alt' ></i></Link></>)}
             </div>
     </div>
     <div  className=' h-1 w-screen bg-white'></div>

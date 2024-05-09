@@ -1,22 +1,59 @@
+import { data } from 'autoprefixer';
 import React, { useState } from 'react'; 
 import { Link } from 'react-router-dom';
 import { ToastContainer,toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css';
 
-const Login = () => {
+const Login = ({setLogin,setName}) => {
     const notify = () => toast("Login Sucessful");
-    const [username, setUsername] = useState('');
+    const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [hide,setHide] =useState({name:'bx bx-show',
     type : 'password'
 })
+
 const handlePass =()=>{
     hide.name==='bx bx-show'?setHide({name : 'bx bx-hide', type : 'text'}):setHide({name : 'bx bx-show', type : 'password'})
 }
 
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async(e) => {
         e.preventDefault();
+        try {
+            const response = await fetch('http://localhost:8080/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    email,
+                    password
+                })
+            });
+
+            if (response.ok) {
+                // Login successful, handle success
+                toast.success('Login Successfully');
+                setLogin(true);
+                
+                try {
+                    // Convert response to JSON
+                    const data = await response.json();
+                    
+                    // Destructure data object
+                    const { email, id, name, password } = data;
+                    setName(name)
+                } catch (error) {
+                    toast.error('Error parsing response data');
+                }}
+                else{
+                    toast.error('Incorrect details')
+                }
+        } catch (error) {
+            
+            toast.error('Error log in user');
+        }
+      
     };
 
     return (
@@ -32,8 +69,8 @@ const handlePass =()=>{
                         id="username"
                         type="text"
                         placeholder=""
-                        value={username.toLowerCase()}
-                        onChange={(e) => setUsername(e.target.value)}
+                        value={email.toLowerCase()}
+                        onChange={(e) => setEmail(e.target.value)}
                     />
                 </div>
                 <div className="mb-6 w-full">
@@ -49,7 +86,7 @@ const handlePass =()=>{
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
                     />
-                    <button onClick={handlePass} className=' px-4 py-2 rounded-xl bg-blue-500 font-medium text-white'><i className={hide.name}></i></button>
+                    <button type="button" onClick={handlePass} className=' px-4 py-2 rounded-xl bg-blue-500 font-medium text-white'><i className={hide.name}></i></button>
                    
                     </div>
                 </div> 

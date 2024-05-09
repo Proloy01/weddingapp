@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Navbar from './components/Navbar'
 import Hero from './components/Hero'
 import About from './components/About'
@@ -9,20 +9,23 @@ import { createBrowserRouter ,RouterProvider,Link} from 'react-router-dom'
 import Signup from './components/Signup'
 import Payment from './components/Payment'
 
+
 const App = () => {
+  const [isLogin,setIsLogin]= useState(false)
+const[username,setUsername]= useState('')
   const router = createBrowserRouter([
     {path: '/',
-    element :  <><Navbar/><Hero/></>},
+    element :  <><Navbar isLogin={isLogin} username={username} setIsLogin={setIsLogin}/><Hero isLogin={isLogin}/></>},
     {path: '/about',
-    element : <><Navbar/><About/></>},
+    element : <><Navbar isLogin={isLogin}username={username} setIsLogin={setIsLogin} /><About/></>},
     {path: '/contact',
-    element :<><Navbar/><Contact/></>},
+    element :<><Navbar isLogin={isLogin}username={username} setIsLogin={setIsLogin}/><Contact/></>},
     {path: '/services',
-    element : <><Navbar/><Services/></>},
+    element : <><Navbar isLogin={isLogin} username={username} setIsLogin={setIsLogin}/><Services/></>},
     {path: '/login',
-    element : <><Navbar/><Login/></>},
+    element : <><Navbar isLogin={isLogin} username={username} setIsLogin={setIsLogin}/><Login setName={setUsername} setLogin={setIsLogin} /></>},
     {path: '/signup',
-    element : <><Navbar/><Signup/></>},
+    element : <><Navbar /><Signup isLogin={setIsLogin}/></>},
     {path: '/payment',
     element : <Payment/>},
   ])
