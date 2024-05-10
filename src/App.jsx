@@ -19,6 +19,8 @@ const App = () => {
   const [productname, setProductname] = useState('');
   const[product,setProduct]= useState('')
   const[data,setData]= useState('')
+ const[productadd,setProductAdd]=useState('')
+  
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -35,7 +37,25 @@ const App = () => {
   
     fetchData(); // Call the async function immediately
   
-  }, []);
+  },[] );
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const res = await fetch('http://localhost:8080/api/products');
+        if (!res.ok) {
+          throw new Error('Failed to fetch data');
+        }
+        const newData = await res.json();
+        setData(newData);
+      } catch (error) {
+        console.error('Error fetching data:', error.message);
+      }
+    };
+  
+    fetchData(); // Call the async function immediately
+  
+  },[productadd] );
   
   
   useEffect(() => {
@@ -63,7 +83,7 @@ const App = () => {
           <Route path="/" element={<Hero isLogin={isLogin} />} />
           <Route path="/adminpannel" element={<AdminPannel nameofproduct={product} username={username} email={email}/>} />
           <Route path="/about" element={<About />} />
-          <Route path="/admin" element={<Admin products={Object.values(data)} />} />
+          <Route path="/admin" element={<Admin productState={setProductAdd} />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/services" element={<Services data={data} loginDetails={isLogin} productname={setProductname} />} />
           <Route

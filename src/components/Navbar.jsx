@@ -12,6 +12,12 @@ const Navbar = ({ isLogin, setIsLogin, username, email }) => {
             // Fetch user data or perform any other relevant actions
         }
     }, [username]);
+    const handleShow=()=>{
+        setDisplay(display === 'none' ? 'block' : 'none')
+        setTimeout(() => {
+            setDisplay('none')
+        }, 2000);
+    }
     
     const [display, setDisplay] = useState('none');
 
@@ -35,12 +41,12 @@ setTimeout(() => {
                 {isLogin ? (
                     <>
                         <div className=' flex h8 w-8 overflow-hidden rounded-full bg-green-400'>
-                            <img onClick={() => setDisplay(display === 'none' ? 'block' : 'none')} className=' w-full cursor-pointer' src="https://upload.wikimedia.org/wikipedia/commons/9/99/Sample_User_Icon.png" alt="" />
+                            <img onClick={handleShow} className=' w-full cursor-pointer' src="https://upload.wikimedia.org/wikipedia/commons/9/99/Sample_User_Icon.png" alt="" />
                         </div>
-                        <div className={`absolute top-12 translate-x-4 ${display} items-center font-semibold justify-center w-fit h-fit bg-zinc-100 rounded-xl py-3 px-2 `}>
-                            <Link to="/adminpanel" className=' text-black'>{username}</Link>
-                            {email === "admin@admin.com" ? <Link to="/admin" className=' mt-3 text-red-500'>AdminPanel</Link> : ""}
-                            <Link onClick={handleLogout} className=' w-full text-black font-semibold flex justify-center items-center mt-3'>Logout</Link>
+                        <div className={`absolute top-12 translate-x-4 ${display} flex-col items-center font-semibold justify-center w-fit h-fit bg-zinc-100 rounded-xl py-3 px-2 `}>
+                            <Link to="/adminpanel" className=' text-blue-500 w-full'>{username}</Link>
+                            {email === "admin@admin.com" ? <Link to="/admin" className=' w-full block mt-3 text-red-500'>AdminPanel</Link> : ""}
+                            <Link onClick={handleLogout} className=' w-full text-red-500 font-semibold flex justify-center items-center mt-3'>Logout</Link>
                         </div>
                     </>
                 ) : (

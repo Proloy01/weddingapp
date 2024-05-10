@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { toast, ToastContainer } from 'react-toastify';
 
-const Admin = () => {
+const Admin = ({productState}) => {
   const [display, setDisplay] = useState('flex');
   const [show, setShow] = useState('none');
   const [formData, setFormData] = useState({
@@ -51,6 +51,7 @@ const Admin = () => {
       if (response.ok) {
         const newProduct = await response.json();
         setProducts([...products, newProduct]);
+        productState(formData)
         toast.success('Product Created Successfully');
         // Reset form data after successful submission
         setFormData({
@@ -110,8 +111,8 @@ const Admin = () => {
       </div>
       <div className='mt-8 -translate-y-20 w-full h-fit flex flex-col'>
         <div className='flex gap-24 w-full'>
-          <Link onClick={handleCreate} className='font-medium'>Create Product </Link>
-          <Link onClick={handleEdit} className='font-medium'> Edit Products </Link>
+          <Link onClick={handleCreate} className=' px-6 py-2 bg-green-400 rounded-full font-medium'>Create Product </Link>
+          <Link onClick={handleEdit} className='px-6 py-2 bg-yellow-400 rounded-full font-medium'> Edit Products </Link>
         </div>
         <form className={`adminform  mb-24 flex-col mt-8 gap-2 ${display}`} onSubmit={handleSubmit}>
           <label htmlFor="productName">Product Name</label>
