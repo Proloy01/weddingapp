@@ -1,18 +1,26 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import Button from './Button'; // Assuming Button component is correctly defined
 
-const Navbar = ({ isLogin, setIsLogin, username }) => {
+const Navbar = ({ isLogin, setIsLogin, username, email }) => {
+    const navigate = useNavigate(); // Move useNavigate hook inside the component
+
     useEffect(() => {
         // Perform any side effects based on changes to isLogin or username here
         // For example, you might want to fetch user data when a user logs in
-        if (username!='') {
-           
+        if (username !== '') {
             // Fetch user data or perform any other relevant actions
         }
     }, [username]);
     
-    const[display,setDisplay]= useState('none')
+    const [display, setDisplay] = useState('none');
+
+    const handleLogout = () => {
+        setIsLogin(false);
+setTimeout(() => {
+            navigate("/");
+    
+}, 500);    }
 
     return (
         <nav className='z-50 fixed top-0 left-0 bgblur flex justify-between px-16 h-[10vh] w-screen items-center border-b text-[#ffffff] border-[#00000057]'>
@@ -27,16 +35,17 @@ const Navbar = ({ isLogin, setIsLogin, username }) => {
                 {isLogin ? (
                     <>
                         <div className=' flex h8 w-8 overflow-hidden rounded-full bg-green-400'>
-                            <img onClick={()=>display=='none'?setDisplay('yesy'):setDisplay('none')} className=' w-full cursor-pointer' src="https://upload.wikimedia.org/wikipedia/commons/9/99/Sample_User_Icon.png" alt="" />
+                            <img onClick={() => setDisplay(display === 'none' ? 'block' : 'none')} className=' w-full cursor-pointer' src="https://upload.wikimedia.org/wikipedia/commons/9/99/Sample_User_Icon.png" alt="" />
                         </div>
-                        <div className={`absolute top-10 translate-x-4 ${display} items-center justify-center w-fit h-fit bg-zinc-900 rounded-xl py-3 px-2 `}>
-                            <Link className=' text-white'>{username}</Link>
-                            <Link onClick={()=>setIsLogin(false)} className=' w-full flex justify-center items-center mt-6'>Logout</Link>
+                        <div className={`absolute top-12 translate-x-4 ${display} items-center font-semibold justify-center w-fit h-fit bg-zinc-100 rounded-xl py-3 px-2 `}>
+                            <Link to="/adminpanel" className=' text-black'>{username}</Link>
+                            {email === "admin@admin.com" ? <Link to="/admin" className=' mt-3 text-red-500'>AdminPanel</Link> : ""}
+                            <Link onClick={handleLogout} className=' w-full text-black font-semibold flex justify-center items-center mt-3'>Logout</Link>
                         </div>
                     </>
                 ) : (
-                        <Button path='/login' title='Login' />
-                    )}
+                    <Button path='/login' title='Login' />
+                )}
 
             </div>
         </nav>

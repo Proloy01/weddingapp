@@ -102,10 +102,10 @@ input::-webkit-inner-spin-button {
 
 .paymentform input{
   height: 35px;
-  border-radius: 18px;
+  border-radius: 12px;
   width: 100%;
-  background-color: transparent;
-  color: white ;
+  background-color: white;
+  color: black ;
   padding: 3px 20px;
   font-weight: 500;
   border: 1px solid #ffffff79;
@@ -113,7 +113,7 @@ input::-webkit-inner-spin-button {
 .paymentform label {
   padding-left: 10px;
   font-weight: 500;
-  color: #00eeff;
+  color: #ffffff;
 }
 .none{
   display: none;
@@ -123,3 +123,18 @@ input::-webkit-inner-spin-button {
   ;
 
 flex-direction: column;}
+.adminform input{
+color: #ffffff;
+background-color: #080e0e;
+box-shadow: 0 0 2px 2px #f5f5f5fa;
+padding: 4px 28px;
+font-weight: 500;
+border-radius: 12px;
+outline: none;
+}
+.adminform label{
+  font-size: 18px;
+  font-weight: 600;
+  margin:5px 0;
+  color: #0ce08f;
+}

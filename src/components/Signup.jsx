@@ -1,5 +1,5 @@
 import React, { useState } from 'react'; 
-import { Link  } from 'react-router-dom';
+import { Link  ,useNavigate} from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -11,6 +11,7 @@ const Signup = ({isLogin}) => {
         name: 'bx bx-show',
         type: 'password'
     });
+    const navigate = useNavigate()
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -31,6 +32,9 @@ const Signup = ({isLogin}) => {
             if (response.ok) {
                 // Registration successful, handle success
                  toast.success('Registered successfully please Log in');
+                 setTimeout(() => {
+                    navigate("/login")
+                 }, 1000);
                 
                 
             } else {

@@ -1,40 +1,112 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
+import React, { useState } from 'react';
+import { Link,useNavigate } from 'react-router-dom';
+import { ToastContainer, toast } from 'react-toastify';
 
-const Payment = () => {
-  const submithandle =(e)=>{
-e.preventDefault() 
-  }
+const Payment = ({ setproduct,productname, emailid }) => {
+  const navigate = useNavigate();
+  const [cvv, setCvv] = useState('');
+  const [num, setNum] = useState('');
+
+  const handleCvvChange = (e) => {
+    const value = e.target.value;
+    // Limiting to 3 characters
+    if (value.length <= 3) {
+      setCvv(value);
+    }
+  };
+
+  const handlecardNum = (e) => {
+    const value = e.target.value;
+    // Limiting to 12 characters
+    if (value.length <= 12) {
+      setNum(value);
+    }
+  };
+
+  const handleProduct = async (e) => {
+    e.preventDefault();
+    try {
+      const requestData = {
+        email: emailid,
+        ProductName: productname.name,
+        ProductAbout:productname.about,
+        ProductUrl:productname.imageurl,
+        ProductPrice:productname.price
+        // Assuming productname is an object with a 'name' property
+      };
+  
+      const response = await fetch('http://localhost:8080/add-product', {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(requestData)
+       
+      });
+  
+      if (response.ok) {
+        // Handle success
+        console.log('Payment successful');
+        toast.success("Payment Sucess")
+        
+        setTimeout(() => {
+          navigate("/")
+      }, 1500);
+      try {
+        // Convert response to JSON
+        const data = await response.json();
+        
+        // Destructure data object
+        const { productName,productUrl,productAbout,productPrice } = data;
+        setproduct({productName,productUrl,productAbout,productPrice})
+    } catch (error) {
+        toast.error('Error parsing response data');
+    }
+        // Redirect or refresh the page
+         // Refresh the page
+        // Or
+        // history.push('/success'); // Redirect to a success page
+      } else {
+        // Handle failure
+        console.error('Payment failed');
+        toast.error("Payment Failed")
+        // Display an error message to the user
+      }
+    } catch (error) {
+      console.error('Error in payment:', error);
+      // Display an error message to the user
+    }
+  };
+  
   return (
-    <div className=' h-screen w-screen text-white px-8 py-2'>
-      <div  className=' py-5'>
-        <Link to='/services' className=' bg-white text-black font-medium py-1 rounded-xl px-8 border'>Go Back</Link>
+    <div className='p-8 min-w-screen min-h-screen flex'>
+      <div className='w-1/2 h-full'>
+        <ToastContainer/>
+        <Link to="/services" className='bg-zinc-400 text-black font-semibold py-1 px-6 rounded-full'>Go Back</Link>
+        <h1 className='headingfont my-2 text-3xl tracking-wide pb-1 mt-5 ml-8'>Checkout</h1>
+        <h1 className='mt-6 ml-16 w-full tracking-widest p-2 flex justify-center font-semibold text-xl text-green-500'>Enter Card Details</h1>
+        <form onSubmit={handleProduct} className='paymentform flex flex-col gap-4 w-full mt-6 ml-16' action="" method="put">
+          <label htmlFor="cardNum">Enter card number</label>
+          <input value={num} onChange={handlecardNum} className='text-black' type="number" name="" id="cardNum" />
+          <label htmlFor="cvv">CVV</label>
+          <input value={cvv} onChange={handleCvvChange} className='text-black' type="number" name="" id="cvv" />
+          <label htmlFor="holderName">Enter cardholder name</label>
+          <input type="text" id='holderName'/>
+          <label htmlFor="expiredate">Valid Upto</label>
+          <input type="date" name="" id="expiredate" />
+          <button className='bg-green-500 py-2 rounded-lg font-bold'>Pay Now</button>
+        </form>
       </div>
-      <div className=' mx-6 mt-8 flex items-center justify-between'>
+      <div className='w-1/2 px-40 flex items-center justify-center flex-col'>
         <div>
-        <h1 className=' ml-8 border-b inline  text-3xl  headingfont'>Almost There.</h1>
-        <h3 className='  ml-36 text-purple-500 pt-2 text-xl'>Final Step</h3>
+          <h1 className='text-2xl font-semibold'>Order Summary</h1>
+          <h1 className='text-sky-400 text-lg font-semibold my-4'>{productname.name}</h1>
+          <p className='text-sm'>{productname.about}</p>
+          <h1 className="translate-y-24 text-2xl"><span className='text-green-500'>Price : </span>{productname.price}</h1>
         </div>
-        <div>
-          <h1 className=' text-2xl font-semibold'>Total : <span className='  text-green-500'>1500 $</span></h1>
-        </div>
-      </div>
-      <div className=' bxshadow  h-[70vh] mx-auto w-[30vw] -translate-y-16 rounded-3xl mt-10 overflow-hidden'>
-        <h1 className=' w-full h-fit bg-sky-500 py-2 flex justify-center items-center border-b  font-semibold tracking-wider '>Enter Card Details</h1>
-                <form className=' paymentform flex flex-col gap-2 p-8' onSubmit={submithandle}>
-                  <label htmlFor="cardnum">Enter card number</label>
-                  <input type="number" name="" id="cardnum" />
-                  <label htmlFor="nameholder">Enter cardholder name </label>
-                  <input type="text" id='nameholder' />
-                  <label htmlFor="exdate"> Expire date</label>
-                  <input type="month" name="" id="exdate" />
-                  <label htmlFor="cvv"> CVV</label>
-                  <input type="number" name="" id="cvv" />
-                  <button className=' mt-2 w-full bg-green-500 text-black font-bold py-3 rounded-3xl'>Pay now</button>
-                </form>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Payment
+export default Payment;

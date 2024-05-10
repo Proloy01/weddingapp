@@ -1,23 +1,24 @@
-import { data } from 'autoprefixer';
-import React, { useState } from 'react'; 
-import { Link } from 'react-router-dom';
-import { ToastContainer,toast } from 'react-toastify'
+import React, { useState ,useEffect} from 'react'; 
+import { Link, useNavigate } from 'react-router-dom'; // Import useNavigate here
+import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-const Login = ({setLogin,setName}) => {
+const Login = ({ setLogin, setName, setemail, setproduct }) => {
+    const navigate = useNavigate(); // Move useNavigate inside the Login component
     const notify = () => toast("Login Sucessful");
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [hide,setHide] =useState({name:'bx bx-show',
-    type : 'password'
-})
+    const [hide, setHide] = useState({
+        name: 'bx bx-show',
+        type: 'password'
+    });
+    
 
-const handlePass =()=>{
-    hide.name==='bx bx-show'?setHide({name : 'bx bx-hide', type : 'text'}):setHide({name : 'bx bx-show', type : 'password'})
-}
+    const handlePass = () => {
+        hide.name === 'bx bx-show' ? setHide({ name: 'bx bx-hide', type: 'text' }) : setHide({ name: 'bx bx-show', type: 'password' });
+    };
 
-
-    const handleSubmit = async(e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         try {
             const response = await fetch('http://localhost:8080/login', {
@@ -35,25 +36,29 @@ const handlePass =()=>{
                 // Login successful, handle success
                 toast.success('Login Successfully');
                 setLogin(true);
-                
+                setTimeout(() => {
+                    navigate("/")
+                }, 1500);
+
                 try {
                     // Convert response to JSON
                     const data = await response.json();
-                    
                     // Destructure data object
-                    const { email, id, name, password } = data;
+                    const { email, id, name, password,productAbout,productName,productPrice,productUrl } = data;
+                    setemail(email)
                     setName(name)
+                    setproduct({productAbout,productPrice,productName,productUrl})
                 } catch (error) {
                     toast.error('Error parsing response data');
-                }}
-                else{
-                    toast.error('Incorrect details')
                 }
+            } else {
+                toast.error('Incorrect details')
+            }
         } catch (error) {
-            
+
             toast.error('Error log in user');
         }
-      
+
     };
 
     return (
